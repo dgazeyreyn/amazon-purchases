@@ -1,0 +1,8 @@
+version: 2
+
+models:
+  - name: stg_purchases__amazon_purchases
+    columns: 
+      - name: survey_responseid
+        tests:
+          - not_null
