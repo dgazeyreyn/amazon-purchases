@@ -1,0 +1,7 @@
+version: 2
+
+sources:
+  - name: surveys
+    database: amazon-429116
+    tables:
+      - name: survey
