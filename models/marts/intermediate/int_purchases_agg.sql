@@ -1,4 +1,10 @@
-with agg as (
+with purchases as (
+
+    select * from {{ ref('stg_purchases__amazon_purchases') }}
+
+),
+
+agg as (
 
     select
         survey_responseid,
@@ -10,7 +16,7 @@ with agg as (
         count(distinct asin_isbn_product_code) as products,
         count(distinct Category) as categories
     from
-        {{ ref('stg_purchases__amazon_purchases') }}
+        purchases
     group by
         survey_responseid
 
