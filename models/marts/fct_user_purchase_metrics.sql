@@ -1,3 +1,5 @@
+{{ config(materialized='table') }}
+
 with responses as (
 
     select * from {{ ref('stg_surveys__responses') }}
