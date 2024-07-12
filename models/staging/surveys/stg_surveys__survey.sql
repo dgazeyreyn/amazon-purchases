@@ -17,3 +17,5 @@ transformed as (
 )
 
 select * from transformed
+
+-- 5,027 distinct survey responses
