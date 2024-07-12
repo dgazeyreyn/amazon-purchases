@@ -2,6 +2,8 @@ version: 2
 
 sources:
   - name: purchases
+    description: Google BigQuery Dataset
     database: amazon-429116
     tables:
       - name: amazon_purchases
+        description: raw/untransformed purchases data
