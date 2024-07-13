@@ -10,7 +10,13 @@ transformed as (
 
     select 
 
-        *
+        *,
+        extract(year from order_date) as order_year,
+        case
+            when order_date in ('2018-07-16', '2018-07-17', '2019-07-15', '2019-07-16', '2020-10-13', '2020-10-14',
+            '2021-06-21', '2021-06-22', '2022-07-12', '2022-07-13') then true
+            else false
+        end as amazon_prime_day
 
     from source
 
