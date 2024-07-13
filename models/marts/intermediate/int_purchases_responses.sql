@@ -21,7 +21,9 @@ select
     purchases.Quantity,
     purchases.Title,
     purchases.asin_isbn_product_code,
-    purchases.Category
+    purchases.Category,
+    purchases.order_year,
+    purchases.amazon_prime_day
 from
     survey
 left join
