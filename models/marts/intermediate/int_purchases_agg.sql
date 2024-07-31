@@ -19,6 +19,8 @@ agg as (
         max(order_date) as last_order_date
     from
         purchases
+    where
+        order_date <= '2022-12-31'
     group by
         survey_responseid
 
