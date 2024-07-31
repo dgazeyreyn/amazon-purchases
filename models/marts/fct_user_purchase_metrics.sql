@@ -22,7 +22,9 @@ select
     purchases_agg.total_quantity,
     purchases_agg.total_spend,
     purchases_agg.products,
-    purchases_agg.categories
+    purchases_agg.categories,
+    purchases_agg.first_order_date,
+    purchases_agg.last_order_date
 from
     responses
 left join
