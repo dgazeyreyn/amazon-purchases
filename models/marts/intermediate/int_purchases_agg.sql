@@ -14,7 +14,9 @@ agg as (
         sum(Quantity) as total_quantity,
         sum(purchase_price_per_unit * Quantity) as total_spend,
         count(distinct asin_isbn_product_code) as products,
-        count(distinct Category) as categories
+        count(distinct Category) as categories,
+        min(order_date) as first_order_date,
+        max(order_date) as last_order_date
     from
         purchases
     group by
