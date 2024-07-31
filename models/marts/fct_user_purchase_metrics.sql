@@ -27,7 +27,7 @@ select
     purchases_agg.last_order_date
 from
     responses
-left join
+join
     purchases_agg on responses.survey_responseid = purchases_agg.survey_responseid
 
 )
