@@ -16,13 +16,19 @@ with
     quintiles as (
         select
             *,
-            ntile(5) over (order by recency desc) as recency_quintile,
-            ntile(5) over (order by purchases) as frequency_quintile,
-            ntile(5) over (order by total_spend) as monetary_quintile
+            1+(rank() over (order by recency desc)-1) * 5 / count(1) over (partition by (select 1)) as recency_ntile,
+            1+(rank() over (order by purchases)-1) * 5 / count(1) over (partition by (select 1)) as frequency_ntile,
+            1+(rank() over (order by total_spend)-1) * 5 / count(1) over (partition by (select 1)) as monetary_ntile,
         from recency_days
     )
 select
-    recency_quintile as quintile,
+    case
+        when recency_ntile >= 1 and recency_ntile < 2 then 1
+        when recency_ntile >= 2 and recency_ntile < 3 then 2
+        when recency_ntile >= 3 and recency_ntile < 4 then 3
+        when recency_ntile >= 4 and recency_ntile < 5 then 4
+        when recency_ntile >= 5 then 5
+    end as recency_quintile,
     'recency' as metric,
     count(*) as users,
     min(recency) as minimum,
@@ -32,7 +38,13 @@ from quintiles
 group by 1, 2
 union all
 select
-    frequency_quintile as quintile,
+    case
+        when frequency_ntile >= 1 and frequency_ntile < 2 then 1
+        when frequency_ntile >= 2 and frequency_ntile < 3 then 2
+        when frequency_ntile >= 3 and frequency_ntile < 4 then 3
+        when frequency_ntile >= 4 and frequency_ntile < 5 then 4
+        when frequency_ntile >= 5 then 5
+    end as frequency_quintile,
     'frequency' as metric,
     count(*) as users,
     min(purchases) as minimum,
@@ -42,7 +54,13 @@ from quintiles
 group by 1, 2
 union all
 select
-    monetary_quintile as quintile,
+    case
+        when monetary_ntile >= 1 and monetary_ntile < 2 then 1
+        when monetary_ntile >= 2 and monetary_ntile < 3 then 2
+        when monetary_ntile >= 3 and monetary_ntile < 4 then 3
+        when monetary_ntile >= 4 and monetary_ntile < 5 then 4
+        when monetary_ntile >= 5 then 5
+    end as monetary_quintile,
     'monetary' as metric,
     count(*) as users,
     min(total_spend) as minimum,
