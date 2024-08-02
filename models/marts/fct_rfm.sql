@@ -28,7 +28,7 @@ select
         when recency_ntile >= 3 and recency_ntile < 4 then 3
         when recency_ntile >= 4 and recency_ntile < 5 then 4
         when recency_ntile >= 5 then 5
-    end as recency_quintile,
+    end as quintile,
     'recency' as metric,
     count(*) as users,
     min(recency) as minimum,
@@ -44,7 +44,7 @@ select
         when frequency_ntile >= 3 and frequency_ntile < 4 then 3
         when frequency_ntile >= 4 and frequency_ntile < 5 then 4
         when frequency_ntile >= 5 then 5
-    end as frequency_quintile,
+    end as quintile,
     'frequency' as metric,
     count(*) as users,
     min(purchases) as minimum,
@@ -60,7 +60,7 @@ select
         when monetary_ntile >= 3 and monetary_ntile < 4 then 3
         when monetary_ntile >= 4 and monetary_ntile < 5 then 4
         when monetary_ntile >= 5 then 5
-    end as monetary_quintile,
+    end as quintile,
     'monetary' as metric,
     count(*) as users,
     min(total_spend) as minimum,
