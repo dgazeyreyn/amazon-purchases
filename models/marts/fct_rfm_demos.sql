@@ -162,7 +162,7 @@ with
             recency_quintile as quintile,
             'recency' as metric,
             case when q_demos_hispanic = true then 'yes' else 'no' end as demo_band,
-            'hisapanic' as demo,
+            'hispanic' as demo,
             count(*) as cell_counts
         from quintile_assignments
         group by 1, 2, 3, 4
@@ -258,7 +258,7 @@ with
             frequency_quintile as quintile,
             'frequency' as metric,
             case when q_demos_hispanic = true then 'yes' else 'no' end as demo_band,
-            'hisapanic' as demo,
+            'hispanic' as demo,
             count(*) as cell_counts
         from quintile_assignments
         group by 1, 2, 3, 4
@@ -354,7 +354,7 @@ with
             monetary_quintile as quintile,
             'monetary' as metric,
             case when q_demos_hispanic = true then 'yes' else 'no' end as demo_band,
-            'hisapanic' as demo,
+            'hispanic' as demo,
             count(*) as cell_counts
         from quintile_assignments
         group by 1, 2, 3, 4
