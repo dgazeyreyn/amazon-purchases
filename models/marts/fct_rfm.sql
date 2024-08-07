@@ -112,7 +112,8 @@ select
     avg(recency) as average,
     any_value(recency_25th_pct) as lower_quartile,
     any_value(recency_median) as median,
-    any_value(recency_75th_pct) as upper_quartile
+    any_value(recency_75th_pct) as upper_quartile,
+    avg(total_spend) as average_spend
 from percentiles
 group by 1, 2
 union all
@@ -125,7 +126,8 @@ select
     avg(purchases) as average,
     any_value(frequency_25th_pct) as lower_quartile,
     any_value(frequency_median) as median,
-    any_value(frequency_75th_pct) as upper_quartile
+    any_value(frequency_75th_pct) as upper_quartile,
+    avg(total_spend) as average_spend
 from percentiles
 group by 1, 2
 union all
@@ -138,6 +140,7 @@ select
     avg(total_spend) as average,
     any_value(monetary_25th_pct) as lower_quartile,
     any_value(monetary_median) as median,
-    any_value(monetary_75th_pct) as upper_quartile
+    any_value(monetary_75th_pct) as upper_quartile,
+    avg(total_spend) as average_spend
 from percentiles
 group by 1, 2
