@@ -16,9 +16,18 @@ with
     ntiles as (
         select
             *,
-            1+(rank() over (order by recency desc)-1) * 5 / count(1) over (partition by (select 1)) as recency_ntile,
-            1+(rank() over (order by purchases)-1) * 5 / count(1) over (partition by (select 1)) as frequency_ntile,
-            1+(rank() over (order by total_spend)-1) * 5 / count(1) over (partition by (select 1)) as monetary_ntile,
+            1
+            + (rank() over (order by recency desc) - 1)
+            * 5
+            / count(1) over (partition by (select 1)) as recency_ntile,
+            1
+            + (rank() over (order by purchases) - 1)
+            * 5
+            / count(1) over (partition by (select 1)) as frequency_ntile,
+            1
+            + (rank() over (order by total_spend) - 1)
+            * 5
+            / count(1) over (partition by (select 1)) as monetary_ntile,
         from recency_days
     ),
     quintile_assignments as (
@@ -62,14 +71,37 @@ with
             end as monetary_quintile
         from ntiles
     ),
-    medians as (
-    select
-        *,
-        PERCENTILE_CONT(recency, 0.5) OVER(PARTITION BY recency_quintile) AS recency_median,
-        PERCENTILE_CONT(purchases, 0.5) OVER(PARTITION BY frequency_quintile) AS frequency_median,
-        PERCENTILE_CONT(total_spend, 0.5) OVER(PARTITION BY monetary_quintile) AS monetary_median,
-    from
-        quintile_assignments
+    percentiles as (
+        select
+            *,
+            percentile_cont(recency, 0.25) over (
+                partition by recency_quintile
+            ) as recency_25th_pct,
+            percentile_cont(purchases, 0.25) over (
+                partition by frequency_quintile
+            ) as frequency_25th_pct,
+            percentile_cont(total_spend, 0.25) over (
+                partition by monetary_quintile
+            ) as monetary_25th_pct,
+            percentile_cont(recency, 0.5) over (
+                partition by recency_quintile
+            ) as recency_median,
+            percentile_cont(purchases, 0.5) over (
+                partition by frequency_quintile
+            ) as frequency_median,
+            percentile_cont(total_spend, 0.5) over (
+                partition by monetary_quintile
+            ) as monetary_median,
+            percentile_cont(recency, 0.75) over (
+                partition by recency_quintile
+            ) as recency_75th_pct,
+            percentile_cont(purchases, 0.75) over (
+                partition by frequency_quintile
+            ) as frequency_75th_pct,
+            percentile_cont(total_spend, 0.75) over (
+                partition by monetary_quintile
+            ) as monetary_75th_pct,
+        from quintile_assignments
     )
 select
     recency_quintile as quintile,
@@ -78,8 +110,10 @@ select
     min(recency) as minimum,
     max(recency) as maximum,
     avg(recency) as average,
-    any_value(recency_median) as median
-from medians
+    any_value(recency_25th_pct) as lower_quartile,
+    any_value(recency_median) as median,
+    any_value(recency_75th_pct) as upper_quartile
+from percentiles
 group by 1, 2
 union all
 select
@@ -89,8 +123,10 @@ select
     min(purchases) as minimum,
     max(purchases) as maximum,
     avg(purchases) as average,
-    any_value(frequency_median) as median
-from medians
+    any_value(frequency_25th_pct) as lower_quartile,
+    any_value(frequency_median) as median,
+    any_value(frequency_75th_pct) as upper_quartile
+from percentiles
 group by 1, 2
 union all
 select
@@ -100,6 +136,8 @@ select
     min(total_spend) as minimum,
     max(total_spend) as maximum,
     avg(total_spend) as average,
-    any_value(monetary_median) as median
-from medians
+    any_value(monetary_25th_pct) as lower_quartile,
+    any_value(monetary_median) as median,
+    any_value(monetary_75th_pct) as upper_quartile
+from percentiles
 group by 1, 2
