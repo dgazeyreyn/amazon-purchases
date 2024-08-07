@@ -72,7 +72,7 @@ with
         quintile_assignments
     )
 select
-    recency_quintile,
+    recency_quintile as quintile,
     'recency' as metric,
     count(*) as users,
     min(recency) as minimum,
@@ -83,7 +83,7 @@ from medians
 group by 1, 2
 union all
 select
-    frequency_quintile,
+    frequency_quintile as quintile,
     'frequency' as metric,
     count(*) as users,
     min(purchases) as minimum,
@@ -94,7 +94,7 @@ from medians
 group by 1, 2
 union all
 select
-    monetary_quintile,
+    monetary_quintile as quintile,
     'monetary' as metric,
     count(*) as users,
     min(total_spend) as minimum,
