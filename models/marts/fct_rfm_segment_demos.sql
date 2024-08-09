@@ -290,12 +290,12 @@ with
         group by 1, 2
     ),
     column_total as (
-        select rfm_segment, count(*) as column_sum from rfm_segments group by 1
+        select rfm_segment, count(*) as column_sum, sum(total_spend) as total_spend from rfm_segments group by 1
     ),
     overall as (
         select count(*) as overall_total from `dbt_dreynolds.fct_user_purchase_metrics`
     )
-select a.*, r.row_sum, c.column_sum, o.overall_total
+select a.*, r.row_sum, c.column_sum, c.total_spend, o.overall_total
 from analysis_counts a
 left join row_total r on r.demo = a.demo and r.demo_band = a.demo_band
 left join column_total c on c.rfm_segment = a.rfm_segment
