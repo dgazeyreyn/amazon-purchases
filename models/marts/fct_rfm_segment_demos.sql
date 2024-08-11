@@ -248,7 +248,7 @@ with
                     q_demos_education
                     = 'Graduate or professional degree (MA, MS, MBA, PhD, JD, MD, DDS, etc)'
                 then
-                    '4 - Graduate or professional degree (MA, MS, MBA, PhD, JD, MD, DDS, etc)'
+                    '4 - Graduate or professional degree'
                 else '3 - Bachelors degree'
             end as demo_band,
             'education' as demo,
