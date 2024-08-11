@@ -164,8 +164,7 @@ with
                 when
                     q_demos_education
                     = 'Graduate or professional degree (MA, MS, MBA, PhD, JD, MD, DDS, etc)'
-                then
-                    '4 - Graduate or professional degree (MA, MS, MBA, PhD, JD, MD, DDS, etc)'
+                then '4 - Graduate or professional degree'
                 else '3 - Bachelors degree'
             end as demo_band,
             'education' as demo,
@@ -290,7 +289,9 @@ with
         group by 1, 2
     ),
     column_total as (
-        select rfm_segment, count(*) as column_sum, sum(total_spend) as total_spend from rfm_segments group by 1
+        select rfm_segment, count(*) as column_sum, sum(total_spend) as total_spend
+        from rfm_segments
+        group by 1
     ),
     overall as (
         select count(*) as overall_total from `dbt_dreynolds.fct_user_purchase_metrics`
