@@ -18,10 +18,10 @@ select
     survey.*,
     purchases.order_date,
     purchases.purchase_price_per_unit,
-    purchases.Quantity,
-    purchases.Title,
+    purchases.quantity,
+    purchases.title,
     purchases.asin_isbn_product_code,
-    purchases.Category,
+    purchases.category,
     purchases.order_year,
     purchases.amazon_prime_day,
     purchases.total_spend
