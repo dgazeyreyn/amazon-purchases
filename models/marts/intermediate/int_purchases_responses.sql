@@ -23,7 +23,8 @@ select
     purchases.asin_isbn_product_code,
     purchases.Category,
     purchases.order_year,
-    purchases.amazon_prime_day
+    purchases.amazon_prime_day,
+    purchases.total_spend
 from
     survey
 left join
