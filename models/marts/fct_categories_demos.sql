@@ -5,7 +5,11 @@ with
     base as (select * from {{ ref("int_demos_base") }}),
 
     final as (
-        select analysis.*, base.users as base
+        select
+            analysis.*,
+            base.users as base_users,
+            base.purchases as base_purchases,
+            base.total_spend as base_total_spend
         from analysis
         left join
             base
