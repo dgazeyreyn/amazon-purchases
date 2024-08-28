@@ -18,7 +18,7 @@ with
         select
             order_date,
             order_year,
-            'All Categories' as category,
+            '1 - ALL CATEGORIES' as category,
             amazon_prime_day,
             count(distinct survey_responseid) as users,
             count(*) as purchases,
