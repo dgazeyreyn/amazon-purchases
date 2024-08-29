@@ -7,22 +7,11 @@ with
         select
             order_year,
             category,
-            amazon_prime_day,
             count(distinct survey_responseid) as users,
             count(*) as purchases,
             sum(total_spend) as total_spend
         from purchases
-        group by 1, 2, 3
-        union all
-        select
-            order_year,
-            '1 - ALL CATEGORIES' as category,
-            amazon_prime_day,
-            count(distinct survey_responseid) as users,
-            count(*) as purchases,
-            sum(total_spend) as total_spend
-        from purchases
-        group by 1, 2, 3
+        group by 1, 2
 
     )
 select *
